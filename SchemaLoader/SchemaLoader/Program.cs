@@ -41,9 +41,7 @@ foreach (var group in groups)
     //use this list
 }
 
-Console.WriteLine("Copy the schema below into the Index.cshtml.cs file of the YourOwnData project:");
-Console.WriteLine();
-Console.WriteLine();
+Console.WriteLine("Writing schema to SchemaOutput.txt file...");
 
 var textLines = new List<string>();
 
@@ -59,11 +57,16 @@ foreach (var table in dbSchema)
     schemaLine += ")";
     schemaLine = schemaLine.Replace(", )", " )");
 
-    Console.WriteLine(schemaLine);
     textLines.Add(schemaLine);
 }
 
+// Write the formatted schema to a text file
+File.WriteAllLines(@"SchemaOutput.txt", textLines);
+
+// Write the JSON schema to a separate file (keeping the existing line)
 File.WriteAllText(@"Schema.txt", JsonSerializer.Serialize(dbSchema));
+
+Console.WriteLine("Schema has been written to SchemaOutput.txt and Schema.txt files.");
 
 public class TableSchema()
 {
